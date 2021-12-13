@@ -1,4 +1,5 @@
 # CS406.M11
+# Lecturer: Mai Tiến Dũng - Mail: dungmt@uit.edu.vn
 # Member:
 | STT | Họ và Tên | MSSV | Email | Git |
 |:-----:|:-----------:|:------:|:-------:|:-----:|

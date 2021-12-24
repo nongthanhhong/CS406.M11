@@ -50,7 +50,7 @@ def unet(pretrained_weights = None,input_size = (256,256,3), n_classes = 10):
         conv9 = Conv2D(64, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(merge9)
         conv9 = Conv2D(64, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv9)
         conv9 = Conv2D(n_classes, 3, activation = 'sigmoid', padding = 'same', kernel_initializer = 'he_normal')(conv9)
-        model = Model(input = inputs, output = conv9)
+        model = Model(inputs = inputs, outputs = conv9)
         #conv10 = Conv2D(1, 1, activation = 'sigmoid')(conv9)
 
         # model = Model(input = inputs, output = conv10)

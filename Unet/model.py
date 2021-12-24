@@ -12,7 +12,7 @@ import tensorflow as tf
 
 
 
-def unet(pretrained_weights = None, input_size = (512,512,3), filters = 32, n_classes = 10):
+def unet(pretrained_weights = None, input_size = (256,256,3), filters=32, n_classes=10):
     
         inputs = Input(input_size)
         # Encoder
@@ -47,7 +47,7 @@ def unet(pretrained_weights = None, input_size = (512,512,3), filters = 32, n_cl
         conv6 = Conv2D(filters*8, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(merge6)
         conv6 = Conv2D(filters*8, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv6)
 
-        up7 = Conv2D(filters**4, 2, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(UpSampling2D(size = (2,2))(conv6))
+        up7 = Conv2D(filters*4, 2, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(UpSampling2D(size = (2,2))(conv6))
         merge7 = concatenate([conv3,up7], axis = 3)
         conv7 = Conv2D(filters*4, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(merge7)
         conv7 = Conv2D(filters*4, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv7)
@@ -55,7 +55,7 @@ def unet(pretrained_weights = None, input_size = (512,512,3), filters = 32, n_cl
         up8 = Conv2D(filters*2, 2, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(UpSampling2D(size = (2,2))(conv7))
         merge8 = concatenate([conv2,up8], axis = 3)
         conv8 = Conv2D(filters*2, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(merge8)
-        conv8 = Conv2D(filters(2), 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv8)
+        conv8 = Conv2D(filters*2, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv8)
 
         up9 = Conv2D(filters, 2, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(UpSampling2D(size = (2,2))(conv8))
         merge9 = concatenate([conv1,up9], axis = 3)
@@ -68,7 +68,7 @@ def unet(pretrained_weights = None, input_size = (512,512,3), filters = 32, n_cl
         model = Model(inputs = inputs, outputs = conv10)
             
 
-        model.compile(optimizer = Adam(lr = 1e-4), loss = 'binary_crossentropy', metrics = ['accuracy'])
+        model.compile(optimizer = Adam(lr = 1e-4), loss = 'sparse_categorical_crossentropy', metrics = ['accuracy'])
         
         #model.summary()
 
@@ -76,4 +76,3 @@ def unet(pretrained_weights = None, input_size = (512,512,3), filters = 32, n_cl
             model.load_weights(pretrained_weights)
             
         return model
-

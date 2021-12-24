@@ -5,7 +5,7 @@ import skimage.transform as trans
 import numpy as np
 from keras.models import *
 from keras.layers import *
-from keras.optimizers import *
+from tensorflow.keras.optimizers import Adam
 from keras.callbacks import ModelCheckpoint, LearningRateScheduler
 from keras import backend as keras
 
@@ -63,3 +63,4 @@ def unet(pretrained_weights = None,input_size = (256,256,3), n_classes = 10):
             model.load_weights(pretrained_weights)
             
         return model
+

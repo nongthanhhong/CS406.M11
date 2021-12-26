@@ -16,6 +16,8 @@ def unet(pretrained_weights = None, input_size = (256,256,3), filters=32, n_clas
     
         inputs = Input(input_size)
         # Encoder
+        
+        inputs = Lambda(lambda x:x/255)(inputs)
         conv1 = Conv2D(filters, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(inputs)
         conv1 = Conv2D(filters, 3, activation = 'relu', padding = 'same', kernel_initializer = 'he_normal')(conv1)
         
@@ -68,7 +70,7 @@ def unet(pretrained_weights = None, input_size = (256,256,3), filters=32, n_clas
         model = Model(inputs = inputs, outputs = conv10)
             
 
-        model.compile(optimizer = Adam(lr = 1e-4), loss = 'sparse_categorical_crossentropy', metrics = ['accuracy'])
+        model.compile(optimizer = Adam(lr = 1e-4), loss = 'binary_crossentropy', metrics = ['accuracy'])
         
         #model.summary()
 
